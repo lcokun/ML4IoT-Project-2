@@ -1,4 +1,4 @@
-# Raw datasets (third-party, large — see context.md for Kaggle sources)
+# Raw datasets (third-party, large — see README.md for Kaggle download commands)
 data/
 
 # Trained model artifacts (regenerate via the training scripts)
@@ -11,3 +11,4 @@ __pycache__/
 
 # Jupyter
 .ipynb_checkpoints/
+context.md

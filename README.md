@@ -1,6 +1,6 @@
 # IoMT Triage Severity Classification — ML Pipeline
 
-SAIA3353 ML4IoT final project. This covers the Data Processing & Intelligence Engineer scope: preprocessing, triage labelling, model training, and the ECG escalation rule. Hardware (ESP32 + sensors) and the Node-RED/MQTT/Streamlit pipeline are teammates' scope — see `context.md` for the full system picture and design rationale.
+SAIA3353 ML4IoT final project. This covers the Data Processing & Intelligence Engineer scope: preprocessing, triage labelling, model training, and the ECG escalation rule. Hardware (ESP32 + sensors) and the Node-RED/MQTT/Streamlit pipeline are teammates' scope.
 
 ## What this does
 
@@ -8,17 +8,25 @@ Takes patient vitals (heart rate, SpO2, body temperature) and outputs a 3-tier t
 
 ## Setup
 
-From the repo root (`ML4IoT-SAIA3353/`):
+From `final-project/` (this directory has its own `pyproject.toml`/`uv.lock`, independent of the parent course repo):
 
 ```bash
 uv sync
+```
+
+## Getting the data
+
+`data/` is gitignored (raw third-party datasets, too large for git). Download via the Kaggle CLI:
+
+```bash
+kaggle datasets download -d prokashbarmancu/iomt-alert -p data/iomt-alert --unzip
+kaggle datasets download -d shayanfazeli/heartbeat -p data/heartbeat --unzip
 ```
 
 ## Files
 
 ```
 final-project/
-├── context.md                      # full design history, decisions, and rationale — read this for "why"
 ├── data/
 │   ├── iomt-alert/                 # vitals dataset (patients_data_with_alerts.xlsx)
 │   └── heartbeat/                  # ECG dataset (MIT-BIH + PTBDB)
@@ -46,10 +54,10 @@ Each script is standalone and writes its artifacts to `output/`.
 
 ## Status
 
-- Triage classifier, ECG classifier, and fusion/escalation logic: done and verified (see `context.md` for metrics, an independent audit log, and known limitations).
+- Triage classifier, ECG classifier, and fusion/escalation logic: done and verified.
 - Inference packaging (taking live sensor input over MQTT and publishing a decision) — not yet built. This is the only remaining piece, and needs a topology decision from the hardware team first (where Node-RED/Mosquitto/Streamlit actually run).
 
-## Known limitations (see `context.md` for detail)
+## Known limitations
 
 - Triage labels are synthetic — manufactured from raw vitals via clinically-informed thresholds, not a real ground-truth column. HR/BP/fall cutoffs are checked against a medical student's input plus a standard BP staging chart; SpO2/temp cutoffs are not independently validated.
 - Blood pressure and fall detection are used to *generate* the triage label but excluded from the *classifier's* features — no BP cuff or IMU on the real ESP32 build. This costs real accuracy on the Non-Urgent tier specifically (0.18 precision / 0.30 recall).
