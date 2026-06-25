@@ -1,0 +1,17 @@
+[project]
+name = "iomt-triage-classifier"
+version = "0.1.0"
+description = "IoMT triage severity classifier + ECG escalation pipeline (ML4IoT SAIA3353 final project)"
+requires-python = ">=3.13"
+dependencies = [
+    "imbalanced-learn>=0.14.2",
+    "ipykernel>=7.2.0",
+    "joblib>=1.5.3",
+    "kaggle>=2.2.2",
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.4",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.2",
+    "scikit-learn>=1.8.0",
+    "tensorflow>=2.21.0",
+]

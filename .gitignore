@@ -1,0 +1,13 @@
+# Raw datasets (third-party, large — see context.md for Kaggle sources)
+data/
+
+# Trained model artifacts (regenerate via the training scripts)
+*.keras
+*.joblib
+
+# Python
+__pycache__/
+*.py[oc]
+
+# Jupyter
+.ipynb_checkpoints/
