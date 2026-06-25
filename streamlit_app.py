@@ -34,7 +34,7 @@ import json
 
 from triage_engine import TIER_COLORS, TIER_ORDER
 
-LATEST_DATA_PATH = "esp32"/"latest_data.json"
+LATEST_DATA_PATH = "esp32/latest_data.json"
 REFRESH_INTERVAL_S = 2
 HISTORY_WINDOW = 60  # how many past readings to show in trend charts
 
@@ -42,6 +42,7 @@ def read_sensor_data() -> dict:
     with open(LATEST_DATA_PATH) as f:
         return json.load(f)
 
+Sensor_data = read_sensor_data()
 st.set_page_config(page_title="IoMT Triage Monitor", page_icon="🩺", layout="wide")
 
 # ---------------------------------------------------------------------------
@@ -158,9 +159,9 @@ def main() -> None:
     st.title("🩺 IoMT Triage Monitor")
     st.caption("ESP32 (MAX30102 + DS18B20 + AD8232) → MQTT → triage model fusion")
 
-    latest = read_sensor_data.latest_vitals()
-    latest_ecg = read_sensor_data.latest_ecg_window()
-    vitals_history = read_sensor_data.read_vitals(limit=HISTORY_WINDOW)
+    latest = Sensor_data
+    latest_ecg = None
+    vitals_history = []#Sensor_data.read_vitals(limit=HISTORY_WINDOW)
 
     # --- Pipeline progress -------------------------------------------------
     vitals_received = latest is not None
@@ -260,7 +261,7 @@ def main() -> None:
             st.info("No history yet.")
 
     # --- History table -------------------------------------------------------
-    with st.expander(f"Full reading history ({read_sensor_data.count_vitals()} total stored)"):
+    with st.expander(f"Full reading history"):
         if vitals_history:
             df = pd.DataFrame(list(reversed(vitals_history)))
             st.dataframe(df, use_container_width=True, hide_index=True)
@@ -269,7 +270,6 @@ def main() -> None:
 
     st.caption(
         f"Auto-refreshing every {REFRESH_INTERVAL_S}s · "
-        f"{json_store.count_vitals()} vitals readings · {read_sensor_data.count_ecg_windows()} ECG windows stored"
     )
     time.sleep(REFRESH_INTERVAL_S)
     st.rerun()
@@ -277,4 +277,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
