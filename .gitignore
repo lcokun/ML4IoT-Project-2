@@ -2,8 +2,8 @@
 data/
 
 # Trained model artifacts (regenerate via the training scripts)
-*.keras
-*.joblib
+# *.keras
+# *.joblib
 
 # Python
 __pycache__/
