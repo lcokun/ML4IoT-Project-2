@@ -12,3 +12,4 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 context.md
+.venv/
